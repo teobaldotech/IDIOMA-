@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LingoMaster Pro B1/B2 - Modern English Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        indigo: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* 3D Flashcard Flip Effect */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Hero Glow Effects */
+        .glow-indigo {
+            box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('cover')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white font-black text-xl shadow-md shadow-indigo-500/20">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                                LingoMaster Pro
+                            </h1>
+                            <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                                B1 / B2
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Inglês Intermediário & Profissional</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Desktop) -->
+                <nav class="hidden md:flex items-center gap-1">
+                    <button onclick="switchTab('cover')" id="nav-cover" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-400">
+                        <i class="fa-solid fa-house"></i> Início
+                    </button>
+                    <button onclick="switchTab('vocab')" id="nav-vocab" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> Tech & Business
+                    </button>
+                    <button onclick="switchTab('grammar')" id="nav-grammar" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-diagram-project"></i> Gramática B1/B2
+                    </button>
+                    <button onclick="switchTab('dialogue')" id="nav-dialogue" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-comments"></i> Diálogos Pro
+                    </button>
+                    <button onclick="switchTab('flashcards')" id="nav-flashcards" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group"></i> Flashcards
+                    </button>
+                </nav>
+
+                <!-- Actions: Stats & Theme -->
+                <div class="flex items-center gap-3">
+                    <!-- XP Badge -->
+                    <div class="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-full text-amber-600 dark:text-amber-400 text-xs font-bold">
+                        <i class="fa-solid fa-bolt text-amber-500"></i>
+                        <span id="user-xp">0</span> XP
+                    </div>
+
+                    <!-- Level Tag -->
+                    <div class="hidden sm:flex items-center gap-1 px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-600 dark:text-indigo-400 text-xs font-bold">
+                        <i class="fa-solid fa-award"></i>
+                        <span id="user-level">B1 Intermediate</span>
+                    </div>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" onclick="toggleDarkMode()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                        <i id="theme-icon" class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Bar -->
+        <div class="md:hidden border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-2 flex justify-around">
+            <button onclick="switchTab('cover')" id="mob-nav-cover" class="mobile-nav-btn flex-1 py-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 flex flex-col items-center gap-1">
+                <i class="fa-solid fa-house text-base"></i> Início
+            </button>
+            <button onclick="switchTab('vocab')" id="mob-nav-vocab" class="mobile-nav-btn flex-1 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 flex flex-col items-center gap-1">
+                <i class="fa-solid fa-briefcase text-base"></i> Business
+            </button>
+            <button onclick="switchTab('grammar')" id="mob-nav-grammar" class="mobile-nav-btn flex-1 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 flex flex-col items-center gap-1">
+                <i class="fa-solid fa-diagram-project text-base"></i> Gramática
+            </button>
+            <button onclick="switchTab('dialogue')" id="mob-nav-dialogue" class="mobile-nav-btn flex-1 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 flex flex-col items-center gap-1">
+                <i class="fa-solid fa-comments text-base"></i> Diálogos
+            </button>
+            <button onclick="switchTab('flashcards')" id="mob-nav-flashcards" class="mobile-nav-btn flex-1 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 flex flex-col items-center gap-1">
+                <i class="fa-solid fa-layer-group text-base"></i> Cards
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 sm:px-6">
+
+        <!-- ========================================== -->
+        <!-- COVER / INTERACTIVE HERO DASHBOARD         -->
+        <!-- ========================================== -->
+        <section id="tab-cover" class="space-y-8">
+            
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-950 text-white p-6 sm:p-10 shadow-2xl border border-indigo-500/20">
+                <!-- Decorative Glow Background Elements -->
+                <div class="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-indigo-600/30 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-1/3 -mb-16 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold border border-indigo-500/30 backdrop-blur-sm">
+                        <i class="fa-solid fa-rocket text-amber-400"></i> Plataforma Completa de Inglês Corporativo & Dev
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                        Eleve seu Inglês para o <span class="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Nível Profissional (B1/B2)</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+                        Aprenda vocabulário tech, domine a gramática corporativa, simule entrevistas de emprego e pratique retenção com flashcards interativos e pronúncia com voz nativa.
+                    </p>
+
+                    <!-- Interactive Hero Buttons -->
+                    <div class="pt-4 flex flex-wrap items-center gap-3">
+                        <button onclick="switchTab('vocab')" class="px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition-all duration-200 shadow-lg shadow-indigo-600/30 flex items-center gap-2 hover:scale-[1.02]">
+                            <i class="fa-solid fa-briefcase"></i> Explorar Glossário Tech
+                        </button>
+                        <button onclick="switchTab('dialogue')" class="px-6 py-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 font-bold text-sm transition-all duration-200 backdrop-blur-sm flex items-center gap-2 hover:scale-[1.02]">
+                            <i class="fa-solid fa-comments text-emerald-400"></i> Simular Entrevista / Daily
+                        </button>
+                        <button onclick="switchTab('grammar')" class="px-6 py-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 font-bold text-sm transition-all duration-200 backdrop-blur-sm flex items-center gap-2 hover:scale-[1.02]">
+                            <i class="fa-solid fa-gamepad text-amber-400"></i> Quiz de Gramática
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Quick Metrics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400">Seu Progresso</p>
+                        <p class="text-xl font-extrabold text-slate-900 dark:text-white"><span id="cover-xp">0</span> XP</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400">Sequência Ativa</p>
+                        <p class="text-xl font-extrabold text-slate-900 dark:text-white">3 Dias</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400">Flashcards</p>
+                        <p class="text-xl font-extrabold text-slate-900 dark:text-white">16 Termos</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400">Meta CEFR</p>
+                        <p class="text-xl font-extrabold text-slate-900 dark:text-white">B2 Upper-Int.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules Quick-Access Grid -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-cubes text-indigo-500"></i> Módulos de Aprendizado
+                    </h2>
+                    <span class="text-xs font-semibold text-slate-400">Selecione uma área para praticar</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Card 1: Tech & Business -->
+                    <div onclick="switchTab('vocab')" class="group bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-indigo-500 transition-all cursor-pointer flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-xl shadow-md shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+                                Glossário
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                Tech & Business Vocab
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                Termos essenciais sobre deploy, refatoração, reuniões corporativas e jargões do mercado.
+                            </p>
+                        </div>
+                        <div class="pt-2 flex items-center justify-between text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                            <span>Acessar Termos</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Gramática -->
+                    <div onclick="switchTab('grammar')" class="group bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-purple-500 transition-all cursor-pointer flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-600 text-white flex items-center justify-center text-xl shadow-md shadow-purple-500/20 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-diagram-project"></i>
+                            </div>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300">
+                                Desafio Quiz
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                                Gramática B1/B2 Master
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                Condicionais, voz passiva, modal verbs de dedução e conectores explicados na prática.
+                            </p>
+                        </div>
+                        <div class="pt-2 flex items-center justify-between text-xs font-bold text-purple-600 dark:text-purple-400">
+                            <span>Iniciar Quiz</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Diálogos Pro -->
+                    <div onclick="switchTab('dialogue')" class="group bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all cursor-pointer flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-xl shadow-md shadow-emerald-500/20 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                                Simulador
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                                Diálogos & Entrevistas
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                Treine conversas reais para entrevistas de emprego em TI, stand-up meetings e negociações.
+                            </p>
+                        </div>
+                        <div class="pt-2 flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                            <span>Simular Cenários</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Flashcards -->
+                    <div onclick="switchTab('flashcards')" class="group bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-amber-500 transition-all cursor-pointer flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-xl shadow-md shadow-amber-500/20 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300">
+                                Memorização
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                Flashcards 3D
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                Revise 16 cards com efeito 3D, tradução, frases de uso em contexto e áudio nativo.
+                            </p>
+                        </div>
+                        <div class="pt-2 flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400">
+                            <span>Praticar Cards</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 1: TECH & BUSINESS VOCABULARY       -->
+        <!-- ========================================== -->
+        <section id="tab-vocab" class="hidden space-y-6">
+            <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+                    <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold uppercase tracking-wider mb-3 border border-indigo-500/30">
+                        Glossário Intermediário & Avançado
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black mb-2">Business, IT & Modern Workplace</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Domine jargões corporativos, expressões idiomáticas do mercado de tecnologia e termos essenciais para reuniões e negociações em inglês.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search & Filter Controls -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="relative w-full sm:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="vocab-search" oninput="filterVocabList()" placeholder="Buscar termo ou significado..." class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-700/60 rounded-xl text-sm border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                </div>
+
+                <div class="flex gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+                    <button onclick="setVocabFilter('all')" id="vcat-all" class="vcat-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white whitespace-nowrap">
+                        Todos
+                    </button>
+                    <button onclick="setVocabFilter('tech')" id="vcat-tech" class="vcat-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 whitespace-nowrap">
+                        <i class="fa-solid fa-code mr-1"></i> Tech & Dev
+                    </button>
+                    <button onclick="setVocabFilter('corporate')" id="vcat-corporate" class="vcat-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 whitespace-nowrap">
+                        <i class="fa-solid fa-building-user mr-1"></i> Corporate & Agile
+                    </button>
+                    <button onclick="setVocabFilter('idiom')" id="vcat-idiom" class="vcat-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 whitespace-nowrap">
+                        <i class="fa-solid fa-comments mr-1"></i> Idiomas Work
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vocab Cards Grid -->
+            <div id="vocab-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Rendered dynamically -->
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 2: INTERMEDIATE GRAMMAR MASTER      -->
+        <!-- ========================================== -->
+        <section id="tab-grammar" class="hidden space-y-6">
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm max-w-3xl mx-auto">
+                <div class="flex items-center justify-between pb-6 border-b border-slate-200 dark:border-slate-700 mb-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Desafio de Nível B1/B2</span>
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white mt-1">Grammar & Structure Master</h2>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs font-semibold text-slate-400">Progresso</div>
+                        <div id="grammar-progress-text" class="text-sm font-bold text-indigo-600 dark:text-indigo-400">1 / 5</div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden mb-6">
+                    <div id="grammar-progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-600 h-full w-1/5 transition-all duration-300"></div>
+                </div>
+
+                <!-- Quiz Card -->
+                <div id="grammar-card" class="space-y-6">
+                    <div>
+                        <span id="grammar-category" class="inline-block px-3 py-1 rounded-lg bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 text-xs font-bold mb-3">
+                            Grammar Focus
+                        </span>
+                        <h3 id="grammar-question" class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white leading-snug">
+                            Question text...
+                        </h3>
+                    </div>
+
+                    <!-- Multiple Options -->
+                    <div id="grammar-options" class="space-y-3">
+                        <!-- Options generated by JS -->
+                    </div>
+
+                    <!-- Detailed Explanation Panel -->
+                    <div id="grammar-explanation" class="hidden p-4 rounded-2xl border text-sm space-y-2">
+                        <div class="font-bold flex items-center gap-2" id="grammar-explanation-title">
+                            <!-- Icon & Status -->
+                        </div>
+                        <p id="grammar-explanation-body" class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed"></p>
+                    </div>
+
+                    <!-- Footer Action -->
+                    <div class="flex justify-between items-center pt-4">
+                        <button onclick="speakCurrentGrammarQuestion()" class="text-xs font-bold text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-2">
+                            <i class="fa-solid fa-volume-high text-sm"></i> Ouvir Pergunta
+                        </button>
+                        <button id="grammar-next-btn" onclick="nextGrammarQuestion()" disabled class="px-6 py-2.5 rounded-xl bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-400 font-bold text-sm transition-all cursor-not-allowed">
+                            Próxima <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Completion Summary -->
+                <div id="grammar-summary" class="hidden text-center py-10 space-y-6">
+                    <div class="w-20 h-20 bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Excelente Trabalho!</h3>
+                        <p id="grammar-final-score" class="text-slate-600 dark:text-slate-300 font-medium text-sm max-w-md mx-auto">
+                            Você demonstrou domínio das estruturas intermediárias do inglês.
+                        </p>
+                    </div>
+                    <button onclick="resetGrammarQuiz()" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-indigo-500/25">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> Refazer Desafio
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 3: CONVERSATION & DIALOGUE SIMULATOR -->
+        <!-- ========================================== -->
+        <section id="tab-dialogue" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Scenario Selector -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-200 dark:border-slate-700 space-y-4">
+                    <h3 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-indigo-500"></i> Cenários de Conversação
+                    </h3>
+                    
+                    <div class="space-y-2">
+                        <button onclick="selectDialogueScenario('interview')" id="scen-btn-interview" class="scen-btn w-full text-left p-3.5 rounded-2xl border border-indigo-500 bg-indigo-50 dark:bg-slate-700/60 font-medium text-xs sm:text-sm flex items-center justify-between transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 dark:text-white">Tech Job Interview</p>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Entrevista para vaga de TI</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button onclick="selectDialogueScenario('standup')" id="scen-btn-standup" class="scen-btn w-full text-left p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/40 font-medium text-xs sm:text-sm flex items-center justify-between transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-arrows-spin"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 dark:text-white">Daily Agile Stand-up</p>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Reunião diária com o time</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button onclick="selectDialogueScenario('salary')" id="scen-btn-salary" class="scen-btn w-full text-left p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/40 font-medium text-xs sm:text-sm flex items-center justify-between transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-handshake"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 dark:text-white">Salary Negotiation</p>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Negociação de contrato</p>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 space-y-2">
+                        <p class="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i> Dica de Estudo
+                        </p>
+                        <p>
+                            Ouça a fala do entrevistador ou colega antes de responder. Escolha a resposta mais profissional e adequada para o contexto corporate.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chat Box Screen -->
+                <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 flex flex-col h-[560px] shadow-sm">
+                    <!-- Header -->
+                    <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50 rounded-t-3xl">
+                        <div class="flex items-center gap-3">
+                            <div id="dialogue-icon-box" class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">
+                                <i id="dialogue-icon" class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h4 id="dialogue-partner-title" class="font-bold text-sm text-slate-900 dark:text-white">Senior Recruiter</h4>
+                                <p id="dialogue-scenario-name" class="text-xs text-slate-500 dark:text-slate-400">Tech Job Interview</p>
+                            </div>
+                        </div>
+                        <button onclick="restartDialogue()" title="Reiniciar Diálogo" class="text-xs px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold transition-all">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> Reiniciar
+                        </button>
+                    </div>
+
+                    <!-- Chat Messages Stream -->
+                    <div id="dialogue-messages" class="flex-grow p-4 overflow-y-auto space-y-4">
+                        <!-- Dynamic chat messages -->
+                    </div>
+
+                    <!-- User Choice Area -->
+                    <div class="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/40 rounded-b-3xl">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Sua resposta recomendada:</p>
+                        <div id="dialogue-options-container" class="space-y-2">
+                            <!-- Dynamic choices -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 4: INTERMEDIATE FLASHCARDS          -->
+        <!-- ========================================== -->
+        <section id="tab-flashcards" class="hidden space-y-6">
+            <!-- Header & Filter -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">Flashcards de Nível B1/B2</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Clique para virar o card e ouvir a pronúncia nativa.</p>
+                </div>
+                <div class="w-full sm:w-auto">
+                    <select id="flashcard-category" onchange="changeFlashcardCategory(this.value)" class="w-full sm:w-auto bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-2 text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <option value="all">Todas as Categorias</option>
+                        <option value="b1_grammar">Phrasal Verbs & Connectors</option>
+                        <option value="tech">Tech & Engineering</option>
+                        <option value="business">Business & Management</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Card Flip Area -->
+            <div class="flex flex-col items-center justify-center py-4">
+                <div class="w-full max-w-lg h-80 perspective-1000">
+                    <div id="flashcard-inner" onclick="flipCard()" class="relative w-full h-full duration-500 transform-style-3d cursor-pointer rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex flex-col justify-between p-6 sm:p-8 hover:shadow-2xl transition-all">
+                        
+                        <!-- FRONT OF CARD -->
+                        <div id="card-front" class="absolute inset-0 backface-hidden p-6 sm:p-8 flex flex-col justify-between items-center text-center bg-white dark:bg-slate-800 rounded-3xl">
+                            <div class="w-full flex justify-between items-center">
+                                <span id="card-tag" class="text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
+                                    Category
+                                </span>
+                                <button onclick="speakFlashcard(event)" title="Ouvir Pronúncia" class="p-2.5 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700 rounded-full transition-colors">
+                                    <i class="fa-solid fa-volume-high text-xl"></i>
+                                </button>
+                            </div>
+
+                            <div class="my-auto">
+                                <h3 id="card-english" class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-2">
+                                    Term
+                                </h3>
+                                <p id="card-phonetic" class="text-sm font-mono text-slate-400 dark:text-slate-500">
+                                    /phonetic/
+                                </p>
+                            </div>
+
+                            <div class="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1 font-medium">
+                                <i class="fa-solid fa-rotate-left"></i> Clique para revelar a definição
+                            </div>
+                        </div>
+
+                        <!-- BACK OF CARD -->
+                        <div id="card-back" class="absolute inset-0 backface-hidden rotate-y-180 p-6 sm:p-8 flex flex-col justify-between items-center text-center bg-slate-900 text-white rounded-3xl">
+                            <div class="w-full flex justify-between items-center">
+                                <span class="text-xs font-extrabold uppercase tracking-wider text-slate-400">
+                                    Significado & Aplicação
+                                </span>
+                                <button onclick="speakFlashcard(event)" title="Ouvir Novamente" class="p-2.5 text-slate-300 hover:bg-slate-800 rounded-full transition-colors">
+                                    <i class="fa-solid fa-volume-high text-xl"></i>
+                                </button>
+                            </div>
+
+                            <div class="my-auto space-y-4 w-full">
+                                <h3 id="card-portuguese" class="text-2xl font-bold text-indigo-400">
+                                    Tradução
+                                </h3>
+                                <div class="p-3.5 bg-slate-800/80 rounded-2xl text-left border border-slate-700 space-y-1.5">
+                                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Contexto de uso:</p>
+                                    <p id="card-example" class="text-xs sm:text-sm italic text-slate-200">"Example sentence."</p>
+                                    <p id="card-example-pt" class="text-xs text-slate-400">"Tradução do exemplo."</p>
+                                </div>
+                            </div>
+
+                            <div class="text-xs text-slate-500 flex items-center gap-1">
+                                <i class="fa-solid fa-rotate-left"></i> Clique para desvirar
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Card Nav Controls -->
+                <div class="flex items-center justify-between w-full max-w-lg mt-6 px-2">
+                    <button onclick="prevFlashcard()" class="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-bold text-xs sm:text-sm transition-all shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Anterior
+                    </button>
+                    <span id="flashcard-counter" class="text-xs font-bold text-slate-500 dark:text-slate-400">
+                        1 / 16
+                    </span>
+                    <button onclick="nextFlashcard()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2">
+                        Próximo <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- App JavaScript Logic -->
+    <script>
+        /* ==========================================================================
+           DATASETS FOR INTERMEDIATE (B1/B2) LEARNERS
+           ========================================================================== */
+
+        const vocabData = [
+            {
+                id: 'v1',
+                category: 'tech',
+                term: 'Deploy',
+                phonetic: '/dɪˈplɔɪ/',
+                definition: 'Publicar ou colocar uma aplicação/código em ambiente de produção.',
+                example: 'We are planning to deploy the new feature this Friday.',
+                examplePt: 'Estamos planejando publicar a nova funcionalidade nesta sexta-feira.'
+            },
+            {
+                id: 'v2',
+                category: 'tech',
+                term: 'Refactoring',
+                phonetic: '/riːˈfæk.tɚ.ɪŋ/',
+                definition: 'Reorganizar o código existente sem alterar seu comportamento externo.',
+                example: 'Code refactoring improved our application performance significantly.',
+                examplePt: 'A refatoração de código melhorou significativamente o desempenho da nossa aplicação.'
+            },
+            {
+                id: 'v3',
+                category: 'corporate',
+                term: 'Bottleneck',
+                phonetic: '/ˈbɑː.t̬əl.nek/',
+                definition: 'Gargalo de garrafa; ponto de estrangulamento que atrasa um processo.',
+                example: 'Quality assurance is currently the main bottleneck in our pipeline.',
+                examplePt: 'A garantia de qualidade é atualmente o principal gargalo em nosso fluxo.'
+            },
+            {
+                id: 'v4',
+                category: 'corporate',
+                term: 'Stakeholder',
+                phonetic: '/ˈsteɪkˌhoʊl.dɚ/',
+                definition: 'Pessoa ou parte interessada nos resultados de um projeto ou empresa.',
+                example: 'We need to present the Q3 results to all key stakeholders.',
+                examplePt: 'Precisamos apresentar os resultados do 3º trimestre a todas as partes interessadas.'
+            },
+            {
+                id: 'v5',
+                category: 'idiom',
+                term: 'Touch base',
+                phonetic: '/tʌtʃ beɪs/',
+                definition: 'Fazer um contato rápido para alinhar informações ou atualizar status.',
+                example: 'Let\'s touch base tomorrow morning before the client meeting.',
+                examplePt: 'Vamos fazer um alinhamento rápido amanhã de manhã antes da reunião com o cliente.'
+            },
+            {
+                id: 'v6',
+                category: 'idiom',
+                term: 'Back to the drawing board',
+                phonetic: '/bæk tu ðə drɔː.ɪŋ bɔːrd/',
+                definition: 'Recomeçar um projeto do zero após um plano ter falhado.',
+                example: 'The client rejected our proposal, so it\'s back to the drawing board.',
+                examplePt: 'O cliente rejeitou nossa proposta, então é hora de voltar ao zero.'
+            },
+            {
+                id: 'v7',
+                category: 'tech',
+                term: 'API Gateway',
+                phonetic: '/ˌeɪ.piːˈaɪ ˈɡeɪt.weɪ/',
+                definition: 'Ponto único de entrada que gerencia e roteia requisições para microsserviços.',
+                example: 'The API Gateway handles authentication and rate limiting for all requests.',
+                examplePt: 'O API Gateway gerencia autenticação e limite de taxa para todas as requisições.'
+            },
+            {
+                id: 'v8',
+                category: 'tech',
+                term: 'CI/CD Pipeline',
+                phonetic: '/siː aɪ siː diː ˈpaɪp.laɪn/',
+                definition: 'Automação de integração e entrega contínua de software.',
+                example: 'Automated tests run automatically in our CI/CD pipeline before release.',
+                examplePt: 'Testes automatizados rodam sozinho no nosso pipeline CI/CD antes do lançamento.'
+            },
+            {
+                id: 'v9',
+                category: 'tech',
+                term: 'Latency',
+                phonetic: '/ˈleɪ.tən.si/',
+                definition: 'O tempo de atraso na resposta de um servidor ou transferência de dados.',
+                example: 'Optimizing database queries reduced latency by over 40 percent.',
+                examplePt: 'Otimizar consultas no banco de dados reduziu a latência em mais de 40 por cento.'
+            },
+            {
+                id: 'v10',
+                category: 'tech',
+                term: 'Fallback',
+                phonetic: '/ˈfɑːl.bæk/',
+                definition: 'Mecanismo ou plano de reserva acionado em caso de falha no sistema.',
+                example: 'If the primary database drops, the application switches to the fallback server.',
+                examplePt: 'Se o banco principal cair, a aplicação alterna para o servidor de reserva.'
+            },
+            {
+                id: 'v11',
+                category: 'corporate',
+                term: 'Scope Creep',
+                phonetic: '/skoʊp kriːp/',
+                definition: 'Aumento não planejado do escopo do projeto durante a execução.',
+                example: 'Careful requirement analysis prevents scope creep in agile sprints.',
+                examplePt: 'Análise cuidadosa de requisitos evita o aumento descontrolado do escopo nas sprints.'
+            },
+            {
+                id: 'v12',
+                category: 'corporate',
+                term: 'Technical Debt',
+                phonetic: '/ˈtek.nɪ.kəl det/',
+                definition: 'Custo futuro gerado por soluções de código improvisadas no presente.',
+                example: 'Refactoring this legacy code is vital to eliminate technical debt.',
+                examplePt: 'Refatorar este código legado é vital para eliminar o débito técnico.'
+            }
+        ];
+
+        const grammarData = [
+            {
+                category: "Conditionals (B2)",
+                question: "Selecione a opção correta: 'If we had deployed the fix earlier, we ___ the server outage.'",
+                options: [
+                    "would avoid",
+                    "would have avoided",
+                    "had avoided",
+                    "will avoid"
+                ],
+                correct: 1,
+                explanation: "Trata-se da Third Conditional (If + Past Perfect, would have + Past Participle), usada para hipotetizar sobre situações passadas que não aconteceram."
+            },
+            {
+                category: "Present Perfect Continuous (B1)",
+                question: "Complete a frase: 'She ___ on this API integration for three days straight.'",
+                options: [
+                    "is working",
+                    "works",
+                    "has been working",
+                    "had worked"
+                ],
+                correct: 2,
+                explanation: "Usamos o Present Perfect Continuous (has been working) para ações que começaram no passado e continuam ininterruptas até o presente."
+            },
+            {
+                category: "Passive Voice in Business (B2)",
+                question: "Qual frase expressa o processo de forma correta na voz passiva?",
+                options: [
+                    "The report is writing by the manager.",
+                    "The report was written by the manager yesterday.",
+                    "The manager wrote the report by yesterday.",
+                    "The report has written by manager."
+                ],
+                correct: 1,
+                explanation: "Na Voz Passiva no passado simples, usamos a estrutura: Objeto + was/were + Past Participle + by + Sujeito."
+            },
+            {
+                category: "Modal Verbs of Deduction (B2)",
+                question: "Escolha a melhor dedução: 'The server logs show zero errors. The system ___ running smoothly.'",
+                options: [
+                    "must be",
+                    "should to be",
+                    "can to be",
+                    "might to be"
+                ],
+                correct: 0,
+                explanation: "Usamos 'must be' para deduções lógicas quando temos forte certeza baseada em evidências."
+            },
+            {
+                category: "Connectors & Transition Words (B1)",
+                question: "Escolha o conector adequado: 'We faced major technical bugs; ___, we delivered the release on time.'",
+                options: [
+                    "however",
+                    "because",
+                    "therefore",
+                    "due to"
+                ],
+                correct: 0,
+                explanation: "'However' (no entanto / contudo) estabelece uma relação de contraste entre duas orações independentes."
+            }
+        ];
+
+        const dialogueScenarios = {
+            interview: {
+                title: "Tech Job Interview",
+                partnerTitle: "Senior Tech Recruiter",
+                icon: "fa-user-tie",
+                steps: [
+                    {
+                        agentText: "Good afternoon! Thanks for taking the time to meet today. Could you briefly walk me through your recent project experience?",
+                        options: [
+                            {
+                                text: "Certainly! Over the past two years, I've been developing scalable web applications using modern JavaScript frameworks and REST APIs.",
+                                correct: true,
+                                nextStep: 1
+                            },
+                            {
+                                text: "Hello! I like computers very much and I am looking for money.",
+                                correct: false,
+                                feedback: "Muito informal. Em entrevistas B2/Corporate, forneça resumos técnicos estruturados."
+                            }
+                        ]
+                    },
+                    {
+                        agentText: "Impressive context! How do you handle unexpected tight deadlines or technical bottlenecks under pressure?",
+                        options: [
+                            {
+                                text: "I prioritize tasks using agile methodologies, maintain clear communication with my team, and focus on delivering core functionalities first.",
+                                correct: true,
+                                nextStep: 2
+                            },
+                            {
+                                text: "I just panic and wait for someone else to fix the bugs.",
+                                correct: false,
+                                feedback: "Demonstra falta de autonomia e resolução de problemas."
+                            }
+                        ]
+                    },
+                    {
+                        agentText: "Great answer! Do you have any questions for us regarding the position or our technical stack?",
+                        options: [
+                            {
+                                text: "Yes, I would love to know more about the team's current CI/CD practices and prospects for professional growth.",
+                                correct: true,
+                                nextStep: null
+                            },
+                            {
+                                text: "No, I am good.",
+                                correct: false,
+                                feedback: "Fazer perguntas sobre o ecossistema da empresa mostra engajamento e preparação."
+                            }
+                        ]
+                    }
+                ]
+            },
+            standup: {
+                title: "Daily Agile Stand-up",
+                partnerTitle: "Scrum Master",
+                icon: "fa-arrows-spin",
+                steps: [
+                    {
+                        agentText: "Morning team! Let's touch base. What did you work on yesterday?",
+                        options: [
+                            {
+                                text: "Yesterday I finalized the user authentication module and submitted a pull request for review.",
+                                correct: true,
+                                nextStep: 1
+                            },
+                            {
+                                text: "I slept well and did some stuff on my computer.",
+                                correct: false,
+                                feedback: "Em daily stand-ups, seja objetivo sobre entregas de trabalho."
+                            }
+                        ]
+                    },
+                    {
+                        agentText: "Awesome. Are there any blockers preventing you from starting the database refactoring task today?",
+                        options: [
+                            {
+                                text: "Currently no blockers, but I might need a quick alignment with DevOps regarding environment credentials.",
+                                correct: true,
+                                nextStep: null
+                            },
+                            {
+                                text: "Everything is wrong, I cannot do anything.",
+                                correct: false,
+                                feedback: "Articule especificamente qual é o impedimento e quem pode ajudar."
+                            }
+                        ]
+                    }
+                ]
+            },
+            salary: {
+                title: "Salary Negotiation",
+                partnerTitle: "HR Manager",
+                icon: "fa-handshake",
+                steps: [
+                    {
+                        agentText: "We are thrilled to offer you the position! Based on our budget, we are offering $5,000 per month.",
+                        options: [
+                            {
+                                text: "Thank you for the offer! Based on market benchmarks for this seniority and my expertise, I was targeting around $5,800. Is there room for negotiation?",
+                                correct: true,
+                                nextStep: 1
+                            },
+                            {
+                                text: "That is too low, I am leaving right now.",
+                                correct: false,
+                                feedback: "Negociações exigem polidez, dados de mercado e flexibilidade."
+                            }
+                        ]
+                    },
+                    {
+                        agentText: "I understand your perspective. We can meet halfway at $5,400 plus flexible performance bonuses.",
+                        options: [
+                            {
+                                text: "That sounds like a fair compromise. I appreciate your flexibility and look forward to joining the team!",
+                                correct: true,
+                                nextStep: null
+                            },
+                            {
+                                text: "Whatever, I accept.",
+                                correct: false,
+                                feedback: "Mantenha o entusiasmo profissional ao fechar o acordo."
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const flashcardData = [
+            {
+                category: 'b1_grammar',
+                english: 'Call off',
+                phonetic: '/kɔːl ɒf/',
+                portuguese: 'Cancelar',
+                example: 'They had to call off the meeting due to technical issues.',
+                examplePt: 'Eles tiveram que cancelar a reunião devido a problemas técnicos.'
+            },
+            {
+                category: 'b1_grammar',
+                english: 'Carry out',
+                phonetic: '/ˈkæri aʊt/',
+                portuguese: 'Executar / Realizar',
+                example: 'Our team will carry out performance tests tonight.',
+                examplePt: 'Nossa equipe executará testes de desempenho hoje à noite.'
+            },
+            {
+                category: 'b1_grammar',
+                english: 'Phase out',
+                phonetic: '/feɪz aʊt/',
+                portuguese: 'Descontinuar gradualmente',
+                example: 'The company will phase out old software models by the end of the year.',
+                examplePt: 'A empresa descontinuará gradualmente os modelos de software antigos até o final do ano.'
+            },
+            {
+                category: 'b1_grammar',
+                english: 'Sort out',
+                phonetic: '/sɔːrt aʊt/',
+                portuguese: 'Resolver / Organizar um problema',
+                example: 'We need to sort out these configuration errors before launch.',
+                examplePt: 'Precisamos resolver estes erros de configuração antes do lançamento.'
+            },
+            {
+                category: 'b1_grammar',
+                english: 'Catch up',
+                phonetic: '/kætʃ ʌp/',
+                portuguese: 'Pôr o assunto em dia / Alcançar o ritmo',
+                example: 'Let\'s catch up during the coffee break.',
+                examplePt: 'Vamos colocar a conversa em dia durante a pausa para o café.'
+            },
+            {
+                category: 'b1_grammar',
+                english: 'Figure out',
+                phonetic: '/ˈfɪɡ.jɚ aʊt/',
+                portuguese: 'Compreender / Encontrar a solução',
+                example: 'It took hours to figure out why the code was throwing an exception.',
+                examplePt: 'Levou horas para entender por que o código estava gerando uma exceção.'
+            },
+            {
+                category: 'b1_grammar',
+                english: 'Run into',
+                phonetic: '/rʌn ˈɪn.tuː/',
+                portuguese: 'Encontrar inesperadamente / Deparar-se com problemas',
+                example: 'We ran into unexpected permission issues during deployment.',
+                examplePt: 'Nos deparamos com problemas inesperados de permissão durante a implantação.'
+            },
+            {
+                category: 'b1_grammar',
+                english: 'Back up',
+                phonetic: '/bæk ʌp/',
+                portuguese: 'Fazer cópia de segurança / Apoiar uma ideia',
+                example: 'Always back up your databases before running migration scripts.',
+                examplePt: 'Sempre faça backup dos seus bancos de dados antes de rodar scripts de migração.'
+            },
+            {
+                category: 'tech',
+                english: 'Scalability',
+                phonetic: '/ˌskeɪ.ləˈbɪl.ə.ti/',
+                portuguese: 'Escalabilidade',
+                example: 'Cloud architecture ensures application scalability.',
+                examplePt: 'A arquitetura em nuvem garante a escalabilidade da aplicação.'
+            },
+            {
+                category: 'tech',
+                english: 'Deprecated',
+                phonetic: '/ˈdep.rə.keɪ.tɪd/',
+                portuguese: 'Descontinuado / Obsoleto',
+                example: 'This API method is deprecated and should be replaced.',
+                examplePt: 'Este método da API está descontinuado e deve ser substituído.'
+            },
+            {
+                category: 'tech',
+                english: 'Decommission',
+                phonetic: '/ˌdiː.kəˈmɪʃ.ən/',
+                portuguese: 'Desativar / Retirar de operação',
+                example: 'We will decommission the legacy server next month.',
+                examplePt: 'Nós vamos desativar o servidor antigo no próximo mês.'
+            },
+            {
+                category: 'tech',
+                english: 'Throughput',
+                phonetic: '/ˈθruː.pʊt/',
+                portuguese: 'Capacidade de processamento / Vazão',
+                example: 'The new system architecture significantly increased data throughput.',
+                examplePt: 'A nova arquitetura do sistema aumentou significativamente a capacidade de processamento de dados.'
+            },
+            {
+                category: 'tech',
+                english: 'Rollback',
+                phonetic: '/ˈroʊl.bæk/',
+                portuguese: 'Reversão de versão / Voltar ao estado anterior',
+                example: 'If the deployment fails, we must execute an immediate rollback.',
+                examplePt: 'Se a implantação falhar, devemos executar uma reversão imediata.'
+            },
+            {
+                category: 'tech',
+                english: 'Environment Variable',
+                phonetic: '/ɪnˈvaɪ.rən.mənt ˈver.i.ə.bəl/',
+                portuguese: 'Variável de Ambiente',
+                example: 'Store secret API keys in environment variables, never in plain code.',
+                examplePt: 'Guarde chaves secretas de API em variáveis de ambiente, nunca no código visível.'
+            },
+            {
+                category: 'tech',
+                english: 'Pull Request',
+                phonetic: '/pʊl rɪˈkwest/',
+                portuguese: 'Solicitação de integração de código (PR)',
+                example: 'Please review my pull request on GitHub before merging to main.',
+                examplePt: 'Por favor, revise minha solicitação de código no GitHub antes de mesclar na main.'
+            },
+            {
+                category: 'tech',
+                english: 'Graceful Degradation',
+                phonetic: '/ˈɡreɪs.fəl ˌdeɡ.rəˈdeɪ.ʃən/',
+                portuguese: 'Degradação Suave de Serviço',
+                example: 'The app maintains basic features during server outages using graceful degradation.',
+                examplePt: 'O aplicativo mantém funções básicas durante instabilidades usando degradação suave.'
+            },
+            {
+                category: 'business',
+                english: 'Leverage',
+                phonetic: '/ˈliː.vɚ.ɪdʒ/',
+                portuguese: 'Alavancar / Aproveitar recursos',
+                example: 'We can leverage AI tools to automate reporting.',
+                examplePt: 'Podemos alavancar ferramentas de IA para automatizar relatórios.'
+            },
+            {
+                category: 'business',
+                english: 'Trade-off',
+                phonetic: '/ˈtreɪd.ɑːf/',
+                portuguese: 'Compromisso / Troca (Perda x Ganho)',
+                example: 'Speed versus security is a common technical trade-off.',
+                examplePt: 'Velocidade versus segurança é uma troca técnica comum.'
+            },
+            {
+                category: 'business',
+                english: 'Bandwidth',
+                phonetic: '/ˈbænd.wɪdθ/',
+                portuguese: 'Capacidade de trabalho / Disponibilidade de tempo',
+                example: 'I don\'t have the bandwidth to take on another project right now.',
+                examplePt: 'Eu não tenho disponibilidade de tempo para assumir outro projeto agora.'
+            },
+            {
+                category: 'business',
+                english: 'Pivot',
+                phonetic: '/ˈpɪv.ət/',
+                portuguese: 'Mudar a estratégia / Mudar de direção',
+                example: 'The startup decided to pivot after analyzing market feedback.',
+                examplePt: 'A startup decidiu mudar de estratégia após analisar o feedback do mercado.'
+            },
+            {
+                category: 'business',
+                english: 'Milestone',
+                phonetic: '/ˈmaɪl.stoʊn/',
+                portuguese: 'Marco / Etapa importante',
+                example: 'Reaching 10,000 active users is a key milestone for us.',
+                examplePt: 'Alcançar 10.000 usuários ativos é um marco importante para nós.'
+            },
+            {
+                category: 'business',
+                english: 'Feature Toggle',
+                phonetic: '/ˈfiː.tʃɚ ˈtɑː.ɡəl/',
+                portuguese: 'Chave de Funcionalidade / Flag de recurso',
+                example: 'Using feature toggles allows us to test new code in production safely.',
+                examplePt: 'Usar flags de recursos nos permite testar novos códigos em produção com segurança.'
+            },
+            {
+                category: 'business',
+                english: 'Root Cause Analysis',
+                phonetic: '/ruːt kɔːz əˈnæl.ə.sɪs/',
+                portuguese: 'Análise de Causa Raiz',
+                example: 'After resolving the incident, the team performed a thorough root cause analysis.',
+                examplePt: 'Após resolver o incidente, o time realizou uma análise minuciosa da causa raiz.'
+            }
+        ];
+
+        /* ==========================================================================
+           APPLICATION STATE & CORE FUNCTIONS
+           ========================================================================== */
+
+        let xp = 0;
+        let currentVocabFilter = 'all';
+        let currentGrammarIdx = 0;
+        let grammarScore = 0;
+        let currentScenarioKey = 'interview';
+        let currentDialogueStepIdx = 0;
+        let currentFlashcardIdx = 0;
+        let filteredFlashcards = [...flashcardData];
+        let isCardFlipped = false;
+
+        // Speech Synthesis Helper
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function addXP(points) {
+            xp += points;
+            document.getElementById('user-xp').innerText = xp;
+            const coverXp = document.getElementById('cover-xp');
+            if (coverXp) coverXp.innerText = xp;
+        }
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('theme-icon');
+            if (document.documentElement.classList.contains('dark')) {
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        // Navigation Switcher
+        function switchTab(tabId) {
+            ['cover', 'vocab', 'grammar', 'dialogue', 'flashcards'].forEach(id => {
+                const el = document.getElementById(`tab-${id}`);
+                if (el) el.classList.add('hidden');
+                
+                // Desktop nav styles
+                const navBtn = document.getElementById(`nav-${id}`);
+                if (navBtn) {
+                    navBtn.className = "nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center gap-2";
+                }
+
+                // Mobile nav styles
+                const mobBtn = document.getElementById(`mob-nav-${id}`);
+                if (mobBtn) {
+                    mobBtn.className = "mobile-nav-btn flex-1 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 flex flex-col items-center gap-1";
+                }
+            });
+
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) target.classList.remove('hidden');
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.className = "nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-400";
+            }
+
+            const activeMob = document.getElementById(`mob-nav-${tabId}`);
+            if (activeMob) {
+                activeMob.className = "mobile-nav-btn flex-1 py-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 flex flex-col items-center gap-1";
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* ==========================================================================
+           MODULE 1: VOCABULARY LOGIC
+           ========================================================================== */
+
+        function renderVocabGrid() {
+            const grid = document.getElementById('vocab-grid');
+            const searchVal = document.getElementById('vocab-search').value.toLowerCase();
+            grid.innerHTML = '';
+
+            const filtered = vocabData.filter(item => {
+                const matchCat = currentVocabFilter === 'all' || item.category === currentVocabFilter;
+                const matchSearch = item.term.toLowerCase().includes(searchVal) || 
+                                    item.definition.toLowerCase().includes(searchVal) ||
+                                    item.example.toLowerCase().includes(searchVal);
+                return matchCat && matchSearch;
+            });
+
+            filtered.forEach(item => {
+                let badgeColor = 'bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400';
+                let catName = 'Tech';
+                if (item.category === 'corporate') {
+                    badgeColor = 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400';
+                    catName = 'Corporate';
+                } else if (item.category === 'idiom') {
+                    badgeColor = 'bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400';
+                    catName = 'Idiom';
+                }
+
+                const card = document.createElement('div');
+                card.className = "bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all space-y-3";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full ${badgeColor}">
+                            ${catName}
+                        </span>
+                        <button onclick="speakText('${item.term.replace(/'/g, "\\'")}')" class="p-2 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                            <i class="fa-solid fa-volume-high text-sm"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            ${item.term}
+                            <span class="text-xs font-mono font-normal text-slate-400">${item.phonetic}</span>
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">${item.definition}</p>
+                    </div>
+                    <div class="p-3 bg-slate-50 dark:bg-slate-900/60 rounded-xl space-y-1 text-xs border border-slate-100 dark:border-slate-700/50">
+                        <p class="font-medium italic text-slate-700 dark:text-slate-200">"${item.example}"</p>
+                        <p class="text-slate-400 dark:text-slate-500">${item.examplePt}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function setVocabFilter(cat) {
+            currentVocabFilter = cat;
+            document.querySelectorAll('.vcat-btn').forEach(btn => {
+                btn.className = "vcat-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 whitespace-nowrap";
+            });
+            const active = document.getElementById(`vcat-${cat}`);
+            if (active) {
+                active.className = "vcat-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white whitespace-nowrap";
+            }
+            renderVocabGrid();
+        }
+
+        function filterVocabList() {
+            renderVocabGrid();
+        }
+
+        /* ==========================================================================
+           MODULE 2: GRAMMAR QUIZ LOGIC
+           ========================================================================== */
+
+        function loadGrammarQuestion() {
+            const current = grammarData[currentGrammarIdx];
+            document.getElementById('grammar-progress-text').innerText = `${currentGrammarIdx + 1} / ${grammarData.length}`;
+            document.getElementById('grammar-progress-bar').style.width = `${((currentGrammarIdx + 1) / grammarData.length) * 100}%`;
+            
+            document.getElementById('grammar-category').innerText = current.category;
+            document.getElementById('grammar-question').innerText = current.question;
+            
+            const optionsContainer = document.getElementById('grammar-options');
+            optionsContainer.innerHTML = '';
+
+            const explanationEl = document.getElementById('grammar-explanation');
+            explanationEl.classList.add('hidden');
+
+            const nextBtn = document.getElementById('grammar-next-btn');
+            nextBtn.disabled = true;
+            nextBtn.className = "px-6 py-2.5 rounded-xl bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-400 font-bold text-sm transition-all cursor-not-allowed";
+
+            current.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 bg-slate-50/50 dark:bg-slate-900/30 text-slate-800 dark:text-slate-200 text-xs sm:text-sm font-medium transition-all flex items-center justify-between";
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-slate-400"></i>`;
+                btn.onclick = () => checkGrammarAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkGrammarAnswer(selectedIndex, btn) {
+            const current = grammarData[currentGrammarIdx];
+            const optionsBtns = document.getElementById('grammar-options').children;
+
+            for (let b of optionsBtns) {
+                b.disabled = true;
+                b.classList.add('opacity-60', 'cursor-not-allowed');
+            }
+
+            const explanationEl = document.getElementById('grammar-explanation');
+            const expTitle = document.getElementById('grammar-explanation-title');
+            const expBody = document.getElementById('grammar-explanation-body');
+            explanationEl.classList.remove('hidden');
+
+            if (selectedIndex === current.correct) {
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm font-bold transition-all flex items-center justify-between";
+                btn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-500 text-base";
+                
+                expTitle.className = "font-bold flex items-center gap-2 text-emerald-600 dark:text-emerald-400";
+                expTitle.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correto! (+20 XP)`;
+                explanationEl.className = "p-4 rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-950/20 text-sm space-y-2";
+                
+                addXP(20);
+                grammarScore++;
+            } else {
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 text-xs sm:text-sm font-bold transition-all flex items-center justify-between";
+                btn.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-500 text-base";
+
+                // Highlight correct one
+                const correctBtn = optionsBtns[current.correct];
+                correctBtn.className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm font-bold transition-all flex items-center justify-between opacity-100";
+                correctBtn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-500 text-base";
+
+                expTitle.className = "font-bold flex items-center gap-2 text-rose-600 dark:text-rose-400";
+                expTitle.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorreto`;
+                explanationEl.className = "p-4 rounded-2xl border border-rose-200 dark:border-rose-800 bg-rose-50/50 dark:bg-rose-950/20 text-sm space-y-2";
+            }
+
+            expBody.innerText = current.explanation;
+
+            const nextBtn = document.getElementById('grammar-next-btn');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm transition-all shadow-md shadow-indigo-500/20 cursor-pointer";
+        }
+
+        function nextGrammarQuestion() {
+            currentGrammarIdx++;
+            if (currentGrammarIdx < grammarData.length) {
+                loadGrammarQuestion();
+            } else {
+                document.getElementById('grammar-card').classList.add('hidden');
+                document.getElementById('grammar-summary').classList.remove('hidden');
+                document.getElementById('grammar-final-score').innerText = `Você acertou ${grammarScore} de ${grammarData.length} questões!`;
+            }
+        }
+
+        function resetGrammarQuiz() {
+            currentGrammarIdx = 0;
+            grammarScore = 0;
+            document.getElementById('grammar-summary').classList.add('hidden');
+            document.getElementById('grammar-card').classList.remove('hidden');
+            loadGrammarQuestion();
+        }
+
+        function speakCurrentGrammarQuestion() {
+            const current = grammarData[currentGrammarIdx];
+            speakText(current.question);
+        }
+
+        /* ==========================================================================
+           MODULE 3: DIALOGUE SIMULATOR LOGIC
+           ========================================================================== */
+
+        function selectDialogueScenario(key) {
+            currentScenarioKey = key;
+            currentDialogueStepIdx = 0;
+
+            document.querySelectorAll('.scen-btn').forEach(btn => {
+                btn.className = "scen-btn w-full text-left p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/40 font-medium text-xs sm:text-sm flex items-center justify-between transition-all";
+            });
+
+            const activeBtn = document.getElementById(`scen-btn-${key}`);
+            if (activeBtn) {
+                activeBtn.className = "scen-btn w-full text-left p-3.5 rounded-2xl border border-indigo-500 bg-indigo-50 dark:bg-slate-700/60 font-medium text-xs sm:text-sm flex items-center justify-between transition-all";
+            }
+
+            const scen = dialogueScenarios[key];
+            document.getElementById('dialogue-partner-title').innerText = scen.partnerTitle;
+            document.getElementById('dialogue-scenario-name').innerText = scen.title;
+            document.getElementById('dialogue-icon').className = `fa-solid ${scen.icon}`;
+
+            const container = document.getElementById('dialogue-messages');
+            container.innerHTML = '';
+            
+            renderDialogueStep();
+        }
+
+        function renderDialogueStep() {
+            const scen = dialogueScenarios[currentScenarioKey];
+            const step = scen.steps[currentDialogueStepIdx];
+
+            const container = document.getElementById('dialogue-messages');
+            
+            // Agent Message
+            const agentMsg = document.createElement('div');
+            agentMsg.className = "flex gap-3 max-w-[85%]";
+            agentMsg.innerHTML = `
+                <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex-shrink-0 flex items-center justify-center text-xs font-bold mt-1">
+                    <i class="fa-solid ${scen.icon}"></i>
+                </div>
+                <div class="p-3.5 bg-slate-100 dark:bg-slate-700/70 rounded-2xl rounded-tl-none text-slate-800 dark:text-slate-100 text-xs sm:text-sm space-y-1">
+                    <p class="font-bold text-[10px] text-indigo-600 dark:text-indigo-400">${scen.partnerTitle}</p>
+                    <p>${step.agentText}</p>
+                    <button onclick="speakText('${step.agentText.replace(/'/g, "\\'")}')" class="text-[10px] text-slate-400 hover:text-indigo-500 flex items-center gap-1 mt-1">
+                        <i class="fa-solid fa-volume-high"></i> Ouvir
+                    </button>
+                </div>
+            `;
+            container.appendChild(agentMsg);
+            container.scrollTop = container.scrollHeight;
+
+            // Render Choices
+            const optionsContainer = document.getElementById('dialogue-options-container');
+            optionsContainer.innerHTML = '';
+
+            step.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-medium transition-all";
+                btn.innerText = opt.text;
+                btn.onclick = () => handleDialogueChoice(opt);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function handleDialogueChoice(opt) {
+            const container = document.getElementById('dialogue-messages');
+            
+            // User message bubble
+            const userMsg = document.createElement('div');
+            userMsg.className = "flex gap-3 max-w-[85%] ml-auto justify-end";
+            userMsg.innerHTML = `
+                <div class="p-3.5 bg-indigo-600 text-white rounded-2xl rounded-tr-none text-xs sm:text-sm space-y-1">
+                    <p class="font-bold text-[10px] text-indigo-200">Você</p>
+                    <p>${opt.text}</p>
+                </div>
+            `;
+            container.appendChild(userMsg);
+            container.scrollTop = container.scrollHeight;
+
+            const optionsContainer = document.getElementById('dialogue-options-container');
+
+            if (opt.correct) {
+                addXP(15);
+                if (opt.nextStep !== null && opt.nextStep !== undefined) {
+                    currentDialogueStepIdx = opt.nextStep;
+                    setTimeout(() => {
+                        renderDialogueStep();
+                    }, 600);
+                } else {
+                    optionsContainer.innerHTML = `
+                        <div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-bold text-center">
+                            <i class="fa-solid fa-circle-check mr-1"></i> Diálogo Concluído com Sucesso! (+45 XP Total)
+                        </div>
+                    `;
+                }
+            } else {
+                optionsContainer.innerHTML = `
+                    <div class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200 text-xs space-y-1">
+                        <p class="font-bold"><i class="fa-solid fa-circle-xmark mr-1"></i> Resposta inadequada para este contexto.</p>
+                        <p class="text-[11px] text-rose-600 dark:text-rose-300">${opt.feedback}</p>
+                        <button onclick="renderDialogueStep()" class="mt-2 text-xs font-bold underline">Tentar Novamente</button>
+                    </div>
+                `;
+            }
+        }
+
+        function restartDialogue() {
+            selectDialogueScenario(currentScenarioKey);
+        }
+
+        /* ==========================================================================
+           MODULE 4: FLASHCARDS LOGIC
+           ========================================================================== */
+
+        function updateFlashcardDisplay() {
+            if (filteredFlashcards.length === 0) return;
+            
+            const card = filteredFlashcards[currentFlashcardIdx];
+            document.getElementById('card-tag').innerText = card.category.replace('_', ' ');
+            document.getElementById('card-english').innerText = card.english;
+            document.getElementById('card-phonetic').innerText = card.phonetic;
+            document.getElementById('card-portuguese').innerText = card.portuguese;
+            document.getElementById('card-example').innerText = `"${card.example}"`;
+            document.getElementById('card-example-pt').innerText = `"${card.examplePt}"`;
+            document.getElementById('flashcard-counter').innerText = `${currentFlashcardIdx + 1} / ${filteredFlashcards.length}`;
+
+            // Reset flip
+            isCardFlipped = false;
+            document.getElementById('flashcard-inner').classList.remove('rotate-y-180');
+        }
+
+        function flipCard() {
+            isCardFlipped = !isCardFlipped;
+            const inner = document.getElementById('flashcard-inner');
+            if (isCardFlipped) {
+                inner.classList.add('rotate-y-180');
+            } else {
+                inner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextFlashcard() {
+            if (currentFlashcardIdx < filteredFlashcards.length - 1) {
+                currentFlashcardIdx++;
+                updateFlashcardDisplay();
+            }
+        }
+
+        function prevFlashcard() {
+            if (currentFlashcardIdx > 0) {
+                currentFlashcardIdx--;
+                updateFlashcardDisplay();
+            }
+        }
+
+        function changeFlashcardCategory(cat) {
+            if (cat === 'all') {
+                filteredFlashcards = [...flashcardData];
+            } else {
+                filteredFlashcards = flashcardData.filter(item => item.category === cat);
+            }
+            currentFlashcardIdx = 0;
+            updateFlashcardDisplay();
+        }
+
+        function speakFlashcard(event) {
+            event.stopPropagation();
+            if (filteredFlashcards.length > 0) {
+                speakText(filteredFlashcards[currentFlashcardIdx].english);
+            }
+        }
+
+        /* ==========================================================================
+           INITIALIZATION
+           ========================================================================== */
+        window.addEventListener('DOMContentLoaded', () => {
+            renderVocabGrid();
+            loadGrammarQuestion();
+            selectDialogueScenario('interview');
+            updateFlashcardDisplay();
+        });
+    </script>
+</body>
+</html>
